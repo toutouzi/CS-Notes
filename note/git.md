@@ -43,7 +43,7 @@
 
   - 设置**~/.ssh/config**文件
 
-  ![](../src/Git/自定ssh key name.png)
+  ![](./../src/Git/自定ssh key name.png)
 
 #### some bugs
 
