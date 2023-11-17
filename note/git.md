@@ -10,20 +10,42 @@
 
 
 
+#### VCS
+
+---
+
+> Version control is a system that records changes to a file or set of files over time so that you can recall specific versions later
+
+> **Local vcs --> Centalized VCS -->Distributed VCS**
+
+##### Distributed Version Control Systems
+
+has full history ,not just a snapshot
+
+- 本地操作，速度很快（🆚 CVCS）
+
+<img src="/Users/dhw/Documents/CS-Notes/src/Git/distributed.png" style="zoom:50%;" />
+
+
+
 ####  Git data model
 
 ---
 
-On disk, all Git stores are objects and references: that’s all there is to Git’s data model. 
+> On disk, all Git stores are objects and references: that’s all there is to Git’s data model. 
 
 ##### Snapshots
 
-Git models the history of a collection of files and folders within some top-level directory as a series of snapshots. 
+a series of snapshots : the history of a collection of files and folders within some top-level directory  
 
 - ==blob== is file (just a bunch of bytes) 
   ==tree== is directory(map name to blob or tree) 
 
-![](../src/Git/snapshots.png)
+<img src="../src/Git/snapshots.png" style="zoom:50%;" />
+
+- if files have not changed, Git doesn’t store the file again, just a <u>link to the previous identical file</u> it has already stored.
+
+  <img src="../src/Git/snapshots1.png" style="zoom:80%;" />
 
 ##### Modeling history: relating snapshots
 
@@ -33,7 +55,7 @@ a history is a directed acyclic graph (DAG) of snapshots.(多个父节点)
 
    `o` : individual commit(snapshot)
 
-![](../src/Git/commit-history.png)
+<img src="../src/Git/commit-history.png" style="zoom:80%;" />
 
 ##### Data model , as pseudocode
 
@@ -50,6 +72,10 @@ type commit = struct{
 ```
 
 ##### Objects and content-addressing
+
+> Everything in Git is checksummed before it is stored and is then referred to by that checksum.
+
+- based on the contents of a file or directory structure in Git
 
 - `type object  = blob | tree | commit` 
 - all object 都被映射了地址
@@ -85,11 +111,29 @@ just data `objects` and `references`
 
 ---
 
-Git accommodates such scenarios by allowing you to specify which modifications should be included in the next snapshot through a mechanism called the “staging area”.
+> Git accommodates such scenarios by allowing you to specify which modifications should be included in the next snapshot through a mechanism called the “staging area”.
+>
+> ==The basic Git workflow :==
+>
+> 1. modify files in your working tree
+> 2. selectively stage just those changes you want to be part of your next commit, which adds *only* those changes to the staging area.
+> 3. do a commit, which takes the files as they are in the staging area and stores that snapshot permanently to your Git directory.
+
+- file has 3 states : ***modified*, *staged*, and committed**
+  - **Modified** means that you have changed the file but have not committed it to your database yet.
+  - **Staged** means that you have marked a modified file in its current version to go into your next commit snapshot.
+  - **Committed** means that the data is safely stored in your local database
 
 - checkout在working directory之间切换；reset从staging area回复到working directory
+  - **Working tree**: a single checkout of one version of the project.  从database中将压缩后的数据拿出，放到磁盘上
+  - **Staging area：** is a file, generally contained in your Git directory
+    - stores information about what will go into your next commit. 
+  - **Git directory：** is where Git stores the metadata and object database for your project.
+    - `clone`的时候就是复制的这个，包含项目的全部内容
 
 ![](../src/Git/areas.png)
+
+
 
 #### Git command-line interface
 
@@ -193,19 +237,19 @@ Git accommodates such scenarios by allowing you to specify which modifications s
 
   3. ` cat < filename >.pub` 显示内容
 
-     ![](./../src/Git/ssh-key-pub.png)
+     <img src="./../src/Git/ssh-key-pub.png" style="zoom:50%;" />
 
   4. 去Github添加公钥
 
   5. 验证是否添加成功`ssh -T git@github.com` 
 
-     ![](./../src/Git/验证github的ssh添加成功.png)
+     <img src="./../src/Git/验证github的ssh添加成功.png" style="zoom:50%;" />
 
 - 使用自定义的ssh key名称 (非id_rsa.pub 和id_rsa)
 
   - 设置**~/.ssh/config**文件
 
-  ![](../src/Git/自定ssh-key-name.png)
+  <img src="../src/Git/自定ssh-key-name.png" style="zoom:70%;" />
   
 - 建立仓库
 
@@ -264,3 +308,5 @@ Host github.com
 - [Git from the Bottom Up](https://jwiegley.github.io/git-from-the-bottom-up/) is a detailed explanation of Git’s implementation details beyond just the data model, for the curious.
 - [How to explain git in simple words](https://smusamashah.github.io/blog/2017/10/14/explain-git-in-simple-words)
 - [Learn Git Branching](https://learngitbranching.js.org/) is a browser-based game that teaches you Git.
+
+##### [安装Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
