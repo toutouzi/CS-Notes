@@ -24,7 +24,7 @@ has full history ,not just a snapshot
 
 - 本地操作，速度很快（🆚 CVCS）
 
-<img src="/Users/dhw/Documents/CS-Notes/src/Git/distributed.png" style="zoom:50%;" />
+<img src="../src/Git/distributed.png" style="zoom:50%;" />
 
 
 
@@ -105,9 +105,7 @@ Git can use human-readable names like “master” to refer to a particular snap
 
 just data `objects` and `references` 
 
-
-
-#### Staging area
+##### Staging area
 
 ---
 
@@ -135,6 +133,62 @@ just data `objects` and `references`
 
 
 
+#### Git Basic
+
+---
+
+##### git config
+
+- 配置文件有3个位置，==级别依次增加==
+
+  - `[path]/etc/gitconfig` file:  **系统级别；** 使用 option `--system` to `git config`
+  - `~/.gitconfig` or `~/.config/git/config` file:   **用户级别**；使用`--global` option
+  -  `.git/config` the repository you’re currently using: **项目级别**；不使用option｜使用`--local` option
+
+- 查看配置
+
+  ```console
+  $ git config --list --show-origin
+  //查看某一配置key value
+  $ git config user.name
+  ```
+
+- 查看某一配置位置
+
+  ```console
+  $ git config --show-origin rerere.autoUpdate
+  file:/home/johndoe/.gitconfig	false
+  ```
+
+- 配置身份
+
+  ```console
+  $ git config --global user.name "John Doe"
+  $ git config --global user.email johndoe@example.com
+  ```
+
+- 配置默认分支名称
+
+  ```console
+  $ git config --global init.defaultBranch main
+  ```
+
+##### repository
+
+- 获得一个git repository
+
+  1. Initializing a Repository in an Existing Directory
+
+     cd到项目下，`git init` ;会产生 `.git`子目录。 
+
+  2. Cloning an Existing Repository
+
+- each file in your working directory can be in one of two states: *tracked* or *untracked*. 
+
+##### Ignoring Files
+
+- .gitignore
+
 #### Git command-line interface
 
 ---
@@ -143,8 +197,8 @@ just data `objects` and `references`
 
 - `git help <command>` :   查看某个命令的帮助
 - `git init`: 将当前目录初始化为git目录， 数据存储在.git下
-- `git status`: tells you what's going on 
-- `git add <filename>`:   adds file to staging area
+- `git add <filename>`:   track ； stage ； mark merge-conflicted files as resolved.
+- `git status`:  [option 选项  -s](https://git-scm.com/book/en/v2/Git-Basics-Recording-Changes-to-the-Repository)
 - `git commit`:  create new commit
 - `git log`:  show a falttend log history
   - `git log --all --gragh --decorate`:  常用，更方便看
@@ -170,7 +224,7 @@ just data `objects` and `references`
 - `git branch --set-upstream-to=<remote>/<remote branch> `:set up correspondence between local and remote branch   
 - `git fetch`: retrieve objects/references from a remote
 - `git pull`:  same as `git fetch; git merge`
-- `git clone`
+- `git clone`：$ git clone https://github.com/libgit2/libgit2 mylibgit（克隆的时候改名）
 
 ##### Undo 
 
@@ -224,32 +278,53 @@ just data `objects` and `references`
 
 ---
 
-- SSH原理
+- **SSH原理**
 
-  - SSH key的配置是针对**每台主机**的
+  - **ssh-keygen是针对每台主机的**
+
   - 当本地主机需要登录远程主机时，本地主机向远程主机发送一个登录请求，远程收到消息后，随机生成一个字符串并用公钥加密，发回给本地。本地拿到该字符串，用存放在本地的私钥进行解密，再次发送到远程，远程比对该解密后的字符串与源字符串是否等同，如果等同则认证成功
 
-- [用SSH连接Github](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh)
+  - [用SSH连接Github](https://help.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh)
 
-  1. 生成SSH key ` ssh-keygen -t <type> -f <filename> -c <commment>` 
+    - 生成SSH key ` ssh-keygen -t <type> -f <filename> -c <commment>` 
 
-  2. 获取ssh key 公钥(< filename >.pub)
+    - 获取ssh key 公钥(< filename >.pub)
+  
+    - ` cat < filename >.pub` 显示内容
+  
+  <img src="../src/Git/ssh-key-pub.png" style="zoom:50%;" />
+  
+  - 去Github添加公钥
+  
+  - 验证是否添加成功`ssh -T git@github.com` 
 
-  3. ` cat < filename >.pub` 显示内容
+<img src="./../src/Git/验证github的ssh添加成功.png" style="zoom:50%;" />
 
-     <img src="./../src/Git/ssh-key-pub.png" style="zoom:50%;" />
+  - 使用自定义的ssh key名称 (非id_rsa.pub 和id_rsa)
 
-  4. 去Github添加公钥
+    - 设置**~/.ssh/config**文件
 
-  5. 验证是否添加成功`ssh -T git@github.com` 
+​					  <img src="../src/Git/自定ssh-key-name.png" style="zoom:60%;" />
 
-     <img src="./../src/Git/验证github的ssh添加成功.png" style="zoom:50%;" />
+  - 提示私钥too open
 
-- 使用自定义的ssh key名称 (非id_rsa.pub 和id_rsa)
+    - 尝试修改私钥权限 `chmod 600 /Users/dhw/.ssh/id_rsa97`
 
-  - 设置**~/.ssh/config**文件
+      <img src="../src/Git/ssh-key无法验证.png" style="zoom:50%;" />
 
-  <img src="../src/Git/自定ssh-key-name.png" style="zoom:70%;" />
+- 设置本机推送的账户
+
+  ``` shell
+  #全局
+  git config --global user.name "YourGlobalUserName"
+  git config --global user.email "your_global_email@example.com"
+  #针对特定仓库
+  git config user.name "YourUserName"
+  git config user.email "your_email@example.com"
+  #检查配置信息
+  git config user.name  # 检查用户名
+  git config user.email # 检查邮箱
+  ```
   
 - 建立仓库
 
@@ -310,3 +385,39 @@ Host github.com
 - [Learn Git Branching](https://learngitbranching.js.org/) is a browser-based game that teaches you Git.
 
 ##### [安装Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+###### git config
+
+- 配置文件有3个位置，==级别依次增加==
+
+  - `[path]/etc/gitconfig` file:  **系统级别；** 使用 option `--system` to `git config`
+  - `~/.gitconfig` or `~/.config/git/config` file:   **用户级别**；使用`--global` option
+  -  `.git/config` the repository you’re currently using: **项目级别**；不使用option｜使用`--local` option
+
+- 查看配置
+
+  ```console
+  $ git config --list --show-origin
+  //查看某一配置key value
+  $ git config user.name
+  ```
+
+- 查看某一配置位置
+
+  ```console
+  $ git config --show-origin rerere.autoUpdate
+  file:/home/johndoe/.gitconfig	false
+  ```
+
+- 配置身份
+
+  ```console
+  $ git config --global user.name "John Doe"
+  $ git config --global user.email johndoe@example.com
+  ```
+
+- 配置默认分支名称
+
+  ```console
+  $ git config --global init.defaultBranch main
+  ```
