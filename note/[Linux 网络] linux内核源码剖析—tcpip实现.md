@@ -28,7 +28,7 @@
 
 ​	这是IP组播在`/proc/net`目录下注册`ip_mr_vif`文件的例子：
 
-<img src="../img/[linux网络]%20linux内核源码剖析—tcpip实现/1/1.2.1.procfs_1.png" style="zoom:100%;" />
+<img src="../img/%5BLinux网络%5D%20linux内核源码剖析—tcpip实现/1/1.2.1.procfs_1.png" style="zoom:100%;" />
 
 ​	
 
