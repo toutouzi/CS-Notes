@@ -24,7 +24,7 @@ has full history ,not just a snapshot
 
 - 本地操作，速度很快（🆚 CVCS）
 
-<img src="../src/Git/distributed.png" style="zoom:50%;" />
+<img src="../img/Git/distributed.png" style="zoom:50%;" />
 
 
 
@@ -41,11 +41,11 @@ a series of snapshots : the history of a collection of files and folders within 
 - ==blob== is file (just a bunch of bytes) 
   ==tree== is directory(map name to blob or tree) 
 
-<img src="../src/Git/snapshots.png" style="zoom:50%;" />
+<img src="../img/Git/snapshots.png" style="zoom:50%;" />
 
 - if files have not changed, Git doesn’t store the file again, just a <u>link to the previous identical file</u> it has already stored.
 
-  <img src="../src/Git/snapshots1.png" style="zoom:80%;" />
+  <img src="../img/Git/snapshots1.png" style="zoom:80%;" />
 
 ##### Modeling history: relating snapshots
 
@@ -55,7 +55,7 @@ a history is a directed acyclic graph (DAG) of snapshots.(多个父节点)
 
    `o` : individual commit(snapshot)
 
-<img src="../src/Git/commit-history.png" style="zoom:80%;" />
+<img src="../img/Git/commit-history.png" style="zoom:80%;" />
 
 ##### Data model , as pseudocode
 
@@ -129,7 +129,7 @@ just data `objects` and `references`
   - **Git directory：** is where Git stores the metadata and object database for your project.
     - `clone`的时候就是复制的这个，包含项目的全部内容
 
-![](../src/Git/areas.png)
+![](../img/Git/areas.png)
 
 
 
@@ -292,25 +292,25 @@ just data `objects` and `references`
   
     - ` cat < filename >.pub` 显示内容
   
-  <img src="../src/Git/ssh-key-pub.png" style="zoom:50%;" />
+  <img src="../img/Git/ssh-key-pub.png" style="zoom:50%;" />
   
   - 去Github添加公钥
   
   - 验证是否添加成功`ssh -T git@github.com` 
 
-<img src="./../src/Git/验证github的ssh添加成功.png" style="zoom:50%;" />
+<img src="./../img/Git/验证github的ssh添加成功.png" style="zoom:50%;" />
 
   - 使用自定义的ssh key名称 (非id_rsa.pub 和id_rsa)
 
     - 设置**~/.ssh/config**文件
 
-​					  <img src="../src/Git/自定ssh-key-name.png" style="zoom:60%;" />
+​					  <img src="../img/Git/自定ssh-key-name.png" style="zoom:60%;" />
 
   - 提示私钥too open
 
     - 尝试修改私钥权限 `chmod 600 /Users/dhw/.ssh/id_rsa97`
 
-      <img src="../src/Git/ssh-key无法验证.png" style="zoom:50%;" />
+      <img src="../img/Git/ssh-key无法验证.png" style="zoom:50%;" />
 
 - 设置本机推送的账户
 
